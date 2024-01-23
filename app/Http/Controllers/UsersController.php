@@ -16,15 +16,15 @@ class UsersController extends Controller
         $this->userService = $userService;
     }
 
-    public function getUser(Request $request)
+    public function getUser(int $userId)
     {
-
+        return $this->userService->getUserService($userId);
     }
 
-    public function insertUser(Request $request) : JsonResource
+    public function insertUser(Request $request)
     {
-        $user = $this->userService->insertUserService($request);
-        return new UserResource($user);
+        $userId = $this->userService->insertUserService($request);
+        return redirect()->route('/dashboard/' . $userId)->with('Success', 'User created successfully');
     }
 
     public function updateUser(Request $request)

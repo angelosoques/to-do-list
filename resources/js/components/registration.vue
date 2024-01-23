@@ -33,13 +33,13 @@
         },
         methods: {
             registerUser() {
-                this.axiosInstance.post('/api/register', this.formData,
+                this.axiosInstance.post('/register', this.formData,
                 ).then((response) =>{
                     return response.json;
                 }).then({
 
                 }).catch((error) => {
-                    alert(error);
+                    alert(error.message);
                 });       
             }
         }

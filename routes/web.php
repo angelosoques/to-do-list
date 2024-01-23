@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('home');
+});
+
+Route::post('/register', [UsersController::class, 'insertUser']);
+
+Route::get('/dashboard/{$userId}', function ($id, UsersController $usersController) {
+    $user = $usersController->getUser($id);
+    dd($user);
+    return view('dashboard', ['userData' => $user]);
 });

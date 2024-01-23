@@ -17,7 +17,7 @@ class UsersServices {
         return new UserResource($user);
     }
 
-    public function insertUserService(Request $request)
+    public function insertUserService(Request $request) : int
     {
         $result = UsersValidator::validateInsertUser($request);
 
@@ -25,7 +25,7 @@ class UsersServices {
 
         $user = User::create($result);
 
-        return new UserResource($user);
+        return $user->id;
     }
 
     public function updateUserService(Request $request) 
