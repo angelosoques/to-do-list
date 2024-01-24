@@ -23,7 +23,10 @@
             'user-registered'
         ],
         props: {
-            axiosInstance: Object
+            axiosInstance: {
+                type: Function,
+                required: true
+            }
         },
         data() {
             return {

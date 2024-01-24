@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
-use App\Http\Resources\AuthLoginResource;
+use App\Http\Resources\UserLoginResource;
 use App\Services\AuthService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,7 +20,14 @@ class AuthController extends Controller
     {
         $user = $this->authService->login($request->validated());
 
-        return new AuthLoginResource($user);
+        return $user;
+    }
+
+    public function checkLogin()
+    {
+        $user = $this->authService->checkLogin();
+
+        return $user;
     }
 
     public function logout()

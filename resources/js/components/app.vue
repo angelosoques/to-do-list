@@ -1,8 +1,7 @@
 <template>
     <div v-if="isLoggedIn" type="container">
         <taskApp
-        :userData="userData" 
-        :newUser="newUser"
+        :userData="userData"
         :axiosInstance="axiosInstance"
         ></taskApp>
     </div>
@@ -10,6 +9,7 @@
     <div v-else type="container">
         <login 
         :axiosInstance="axiosInstance" 
+        @user-logged="handleLoggedInUserData"
         ></login>
         
         <registration 
@@ -36,18 +36,14 @@ import taskApp from './tasks/taskApp.vue';
                 isLoggedIn: false, 
                 axiosInstance: axios.create({
                     headers: {
-                        'x-csrf-token' : document.querySelector('meta[name="csrf-token"]').content,
+                        'X-CSRF-TOKEN' : document.querySelector('meta[name="csrf-token"]').content,
                     }
                 }),
                 userData : {
                     id : null,
                     email_address : '',
+                    tasks : []
                 },
-                // userData : {
-                //     userId : 1,
-                //     userEmail : 'angelosoques@gmail.com',
-                // },
-                newUser: false,
             }
         },
         watch() {
@@ -57,25 +53,33 @@ import taskApp from './tasks/taskApp.vue';
             receiveUserId(userData) {
                 this.userData.id = userData.id;
                 this.userData.email_address = userData.email_address;
-                this.newUser = true;
                 this.isLoggedIn = true;
-            }
+            },
+            handleLoggedInUserData(userData) {
+                this.userData.id = userData.data.id;
+                this.userData.email_address = userData.data.email_address;
+                this.userData.tasks = userData.data.tasks;
+                this.isLoggedIn = true;
+            },
+            async checkLoggedUser() {
+                let loggedUserData = await this.axiosInstance.get('/checkLogin')
+                .then((response) => {
+                    return response.data;
+                }).catch((error) => {
+                    alert(error);
+                });
+
+                if (loggedUserData.length !== 0) {
+                    this.userData.id = loggedUserData.data.id;
+                    this.userData.email_address = loggedUserData.data.email_address;
+                    this.userData.tasks = loggedUserData.data.tasks;
+                    this.isLoggedIn = true;
+                }
+            }    
         },
         beforeMount() {
-            // let fetchedData = async () => {
-            //     this.axiosInstance.get('/auth')
-            //     .then((response) => {
-            //         return response.data;
-            //     }).catch({
-
-            //     });
-            // }
-
-            // if (this.fetchedData !== null) {
-            //     this.userData.userId = userId;
-            //     this.userData.userEmail = userEmail;
-            //     this.isLoggedIn = true;
-            // }
+            this.axiosInstance.defaults.headers.common['X-CSRF-TOKEN'] = document.querySelector('meta[name="csrf-token"]').content;
+            this.checkLoggedUser();
         }
     }
 

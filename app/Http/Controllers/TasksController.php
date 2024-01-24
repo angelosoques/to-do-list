@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskCreateRequest;
+use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Resources\taskResource;
+use App\Http\Resources\TaskResource as ResourcesTaskResource;
 use App\Services\TasksServices;
 use Illuminate\Http\Request;
 
@@ -35,9 +37,9 @@ class TasksController extends Controller
      */
     public function store(TaskCreateRequest $request)
     {
-        $response = $this->taskService->store($request->validate());
+        $response = $this->taskService->store($request->validated());
 
-        return new taskResource($response);
+        return $response;
     }
 
     /**
@@ -51,16 +53,12 @@ class TasksController extends Controller
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    
+    public function update(TaskUpdateRequest $request, $id) : TaskResource
     {
-        //
+        $response = $this->taskService->update($request->validated(), $id);
+
+        return $response;
     }
 
     /**

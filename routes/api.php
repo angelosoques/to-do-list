@@ -22,7 +22,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //users
 Route::post('/register', [UserContoller::class, 'store']);
-Route::post('/login', [AuthController::class, 'login']);
 
 //todolists
 // Route::get('/deleted',);

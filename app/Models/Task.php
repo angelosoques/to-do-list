@@ -17,7 +17,6 @@ class Task extends Model
     ];
 
     protected $casts = [
-        'status'     => TaskConstants::class,
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];

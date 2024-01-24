@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UsersController;
 
@@ -16,4 +17,10 @@ use App\Http\Controllers\UsersController;
 
 Route::get('/', function () {
     return view('home');
+});
+
+Route::middleware(['web'])->group(function() {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::get('/checkLogin', [AuthController::class, 'checkLogin']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
