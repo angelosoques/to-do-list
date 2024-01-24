@@ -17,11 +17,3 @@ use App\Http\Controllers\UsersController;
 Route::get('/', function () {
     return view('home');
 });
-
-Route::post('/register', [UsersController::class, 'insertUser']);
-
-Route::get('/dashboard/{$userId}', function ($id, UsersController $usersController) {
-    $user = $usersController->getUser($id);
-    dd($user);
-    return view('dashboard', ['userData' => $user]);
-});

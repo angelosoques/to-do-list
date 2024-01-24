@@ -17,7 +17,7 @@ class UsersServices {
         return new UserResource($user);
     }
 
-    public function insertUserService(Request $request) : int
+    public function insertUserService(Request $request) : array
     {
         $result = UsersValidator::validateInsertUser($request);
 
@@ -25,19 +25,6 @@ class UsersServices {
 
         $user = User::create($result);
 
-        return $user->id;
-    }
-
-    public function updateUserService(Request $request) 
-    {
-        $result = UsersValidator::validateUpdateUser($request);
-
-        $user = User::find($result['id']);
-
-        if (!Hash::check($result['password'], $user['password'])) {
-            return ["error" => "wrong password"];
-        }
-
-        $user->update($result);
+        return ['userId' => $user->id, 'userEmail' => $user->email_address];
     }
 }

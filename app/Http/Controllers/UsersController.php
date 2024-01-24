@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\UserResource;
 use App\Services\UsersServices;
 
 class UsersController extends Controller
@@ -18,19 +16,13 @@ class UsersController extends Controller
 
     public function getUser(int $userId)
     {
-        return $this->userService->getUserService($userId);
+        $userData = $this->userService->getUserService($userId);
+        return $userData;
     }
 
-    public function insertUser(Request $request)
+    public function insertUser(Request $request) : array
     {
-        $userId = $this->userService->insertUserService($request);
-        return redirect()->route('/dashboard/' . $userId)->with('Success', 'User created successfully');
-    }
-
-    public function updateUser(Request $request)
-    {
-        // $result = UsersValidator::validateUpdateUser($request);
-
-        // return new UserResource($result);
+        $userData = $this->userService->insertUserService($request);
+        return $userData;
     }
 }
