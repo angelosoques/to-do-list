@@ -1,8 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserContoller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 //users
-Route::post('/register', [UsersController::class, 'insertUser']);
-
+Route::post('/register', [UserContoller::class, 'store']);
+Route::post('/login', [AuthController::class, 'login']);
 
 //todolists
 // Route::get('/deleted',);

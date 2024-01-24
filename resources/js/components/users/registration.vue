@@ -36,18 +36,19 @@
         },
         methods: {
             async registerUser()  {
-                let userData = await this.axiosInstance.post('/api/register', this.formData,
+                await this.axiosInstance.post('/api/register', this.formData,
                 ).then((response) =>{
-                    if (response.json === null) {
-                        throw new exception("an error occurred.");
+                    console.log(response);
+                    if (response.data === undefined) {
+                        throw new exception();
                     }
-                    alert('Registered Successfully.');
-                    return response.data;
+                    
+                    this.$emit('user-registered', response.data);
                 }).catch((error) => {
                     console.log(error);
                 });       
 
-                this.$emit('user-registered', userData);
+                
             }
         }
     }

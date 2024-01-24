@@ -1,10 +1,10 @@
 <template>
     <div v-if="isLoggedIn" type="container">
-        <tasksApp
+        <taskApp
         :userData="userData" 
         :newUser="newUser"
         :axiosInstance="axiosInstance"
-        ></tasksApp>
+        ></taskApp>
     </div>
         
     <div v-else type="container">
@@ -23,13 +23,13 @@
 import axios from 'axios';
 import login from './users/login.vue';
 import registration from './users/registration.vue';
-import tasksApp from './tasks/taskApp.vue';
+import taskApp from './tasks/taskApp.vue';
 
     export default{
         components: {
             login,
             registration,
-            tasksApp,
+            taskApp,
         },
         data() {
             return {
@@ -40,9 +40,13 @@ import tasksApp from './tasks/taskApp.vue';
                     }
                 }),
                 userData : {
-                    userId : null,
-                    userEmail : '',
+                    id : null,
+                    email_address : '',
                 },
+                // userData : {
+                //     userId : 1,
+                //     userEmail : 'angelosoques@gmail.com',
+                // },
                 newUser: false,
             }
         },
@@ -50,9 +54,9 @@ import tasksApp from './tasks/taskApp.vue';
             isLoggedIn
         },
         methods: {
-            receiveUserId(userId, userEmail) {
-                this.userData.userId = userId;
-                this.userData.userEmail = userEmail;
+            receiveUserId(userData) {
+                this.userData.id = userData.id;
+                this.userData.email_address = userData.email_address;
                 this.newUser = true;
                 this.isLoggedIn = true;
             }
