@@ -4,8 +4,9 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use App\Constants\TaskConstants;
+use Illuminate\Support\Facades\DB;
 
-class CreateTaskTable extends Migration
+class CreateTasksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,15 +15,16 @@ class CreateTaskTable extends Migration
      */
     public function up()
     {
-        Schema::create('task', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title', 50);
             $table->enum('status', [TaskConstants::TO_DO, TaskConstants::IN_PROGRESS, TaskConstants::COMPLETED, TaskConstants::DELETED]);
-            $table->bigInteger('user_id');
-            $table->timestamp('created_at');
-            $table->timestamp('updated_at');
+            $table->bigInteger('user_id')->unsigned()->nullable(false);
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
 
             $table->foreign('user_id')->references('id')->on('users');
+
         });
     }
 
@@ -33,6 +35,6 @@ class CreateTaskTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('task');
+        Schema::dropIfExists('tasks');
     }
 }

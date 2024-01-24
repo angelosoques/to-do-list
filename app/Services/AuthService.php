@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class AuthService {
@@ -10,7 +11,8 @@ class AuthService {
     {
         if(Auth::attempt($loginData)) {
             $user = Auth::user();
-            return ['id' => $user->id, 'email_address' => $user->email_address];
+            $user = User::with('tasks')->find($user->id);
+            return $user;
         } else {
             return response()->json(['error' => 'failed attempt'], 500);
         }

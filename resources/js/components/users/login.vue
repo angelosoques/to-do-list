@@ -16,7 +16,7 @@
             axiosInstance : Object
         },
         emits: [
-
+            'user-logged'
         ],
         data () {
             return {
@@ -28,7 +28,13 @@
         },
         methods: {
             async attemptLogin ()  {
-                this.axiosInstance.post('/');
+                await this.axiosInstance.post('/api/login', formData)
+                .then((response) => {
+                    if (response.data !== undefined)
+                    this.$emits('user-logged');
+                }).catch((error) => {
+                    alert(error);
+                });
             }
         }
     }
