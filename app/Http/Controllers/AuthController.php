@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\UserLoginResource;
 use App\Services\AuthService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,23 +17,22 @@ class AuthController extends Controller
         $this->authService = $authService;
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request) : JsonResponse | UserLoginResource
     {
         $user = $this->authService->login($request->validated());
 
         return $user;
     }
 
-    public function checkLogin()
+    public function checkLogin() : array | UserLoginResource
     {
         $user = $this->authService->checkLogin();
 
         return $user;
     }
 
-    public function logout()
+    public function logout() : mixed
     {
-        Auth::logout();
-        return redirect('/');
+        return Auth::logout();
     }
 }

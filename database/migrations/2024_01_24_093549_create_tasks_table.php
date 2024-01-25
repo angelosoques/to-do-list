@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
             $table->string('title', 50);
-            $table->enum('status', [TaskConstants::TO_DO, TaskConstants::IN_PROGRESS, TaskConstants::COMPLETED, TaskConstants::DELETED]);
+            $table->enum('status', [TaskConstants::TO_DO, TaskConstants::IN_PROGRESS, TaskConstants::COMPLETED, TaskConstants::DELETED])->default(TaskConstants::TO_DO);
             $table->bigInteger('user_id')->unsigned()->nullable(false);
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));

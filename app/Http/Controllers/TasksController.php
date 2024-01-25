@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TaskCreateRequest;
+use App\Http\Requests\TaskShowRequest;
 use App\Http\Requests\TaskUpdateRequest;
-use App\Http\Resources\taskResource;
-use App\Http\Resources\TaskResource as ResourcesTaskResource;
+use App\Http\Resources\TaskResource;
+use App\Http\Resources\TaskResourceCollection;
 use App\Services\TasksServices;
 use Illuminate\Http\Request;
 
@@ -20,55 +21,44 @@ class TasksController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //return 
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskCreateRequest $request)
+    public function store(TaskCreateRequest $request) : TaskResource
     {
         $response = $this->taskService->store($request->validated());
 
         return $response;
     }
-
+        
     /**
-     * Display the specified resource.
+     * Method update
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param TaskUpdateRequest $request [explicite description]
+     * @param $id $id [explicite description]
+     *
+     * @return TaskResource
      */
-    public function show($id)
-    {
-        //
-    }
-
-    
-    public function update(TaskUpdateRequest $request, $id) : TaskResource
+    public function update(TaskUpdateRequest $request, int $id) : TaskResource
     {
         $response = $this->taskService->update($request->validated(), $id);
 
         return $response;
     }
-
+    
     /**
-     * Remove the specified resource from storage.
+     * Method show
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param TaskShowRequest $request [explicite description]
+     *
+     * @return array
      */
-    public function destroy($id)
+    public function show(TaskShowRequest $request) : array | TaskResourceCollection
     {
-        //
+        $response = $this->taskService->show($request->validated());
+
+        return $response;
     }
 }

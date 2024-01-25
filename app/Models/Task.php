@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Constants\TaskConstants;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 

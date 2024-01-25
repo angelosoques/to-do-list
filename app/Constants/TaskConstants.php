@@ -8,5 +8,14 @@ class TaskConstants {
     const IN_PROGRESS = 'in_progress';
     const COMPLETED = 'completed';
     const DELETED = 'deleted';
-    
+
+    public static function getValues()
+    {
+        return [
+            self::TO_DO,
+            self::IN_PROGRESS,
+            self::COMPLETED,
+            self::DELETED
+        ];
+    }
 }

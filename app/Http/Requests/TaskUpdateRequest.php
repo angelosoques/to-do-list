@@ -17,9 +17,11 @@ class TaskUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        $taskId = $this->route('taskId');
+        $taskId = $this->route('id');
         $task = Task::find($taskId);
-        return $task = Auth::user()->id === $task->user_id;
+        $user = Auth::user();
+        
+        return $task && $user->id === $task->user_id;
     }
 
     /**
@@ -31,7 +33,7 @@ class TaskUpdateRequest extends FormRequest
     {
         return [
             'title' => 'sometimes|string|max:50',
-            'status' => ['required', 'string', new checkEnumValue(TaskConstants::class)]
+            'status' => ['sometimes', 'string', new checkEnumValue(TaskConstants::class)]
         ];
     }
 }
